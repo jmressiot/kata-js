@@ -22,5 +22,8 @@
         "jest": true,
         "node": true
     },
+    "parserOptions": {
+        "sourceType": "module"
+    },
     "extends": "eslint:recommended"
 }

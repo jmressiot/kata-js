@@ -8,16 +8,13 @@ const DISCOUNT = {
     5: 0.75
 };
 
-const price = books => {
+export const price = books => {
 
-    // groupBy booksId => example [2,1,0,0,0] = [1,1,2]
-    const booksById = books.reduce( (acc, current) => {
-        acc[current] += 1;
-        return acc;
-    }, [0,0,0,0,0]);
+    // groupBy booksId => example [2,1,0,0,0] = [1,1,2,0,0]
+    const booksById = groupByUniqueBooks(books);
 
     // The aim is to dispatch by unique book 
-    let maxCount = Math.max.apply(Math, booksById);
+    let maxCount = Math.max(...booksById);
     let uniqueBooks = [];
     let uniqueBooksWithBestDiscount = []; // priority with the best discount 80%
     for(let i=0 ;  i < maxCount ; i++){
@@ -50,6 +47,13 @@ const price = books => {
 
 };
 
+export const groupByUniqueBooks = items => {
+    return items.reduce( (acc, current) => {
+        acc[current] += 1;
+        return acc;
+    }, [0,0,0,0,0]);
+};
+
 const priceByItem = item => {
     let count = countUniqueBooks(item);
     return PRICE * count * DISCOUNT[count];
@@ -61,4 +65,3 @@ const countUniqueBooks = (books) => {
     }, 0);
 };
 
-module.exports = price;
